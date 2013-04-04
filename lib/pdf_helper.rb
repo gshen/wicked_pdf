@@ -2,17 +2,18 @@ module PdfHelper
   require 'wicked_pdf'
   require 'wicked_pdf_tempfile'
 
-  def self.included(base)
-    # Protect from trying to augment modules that appear
-    # as the result of adding other gems.
-    return if base != ActionController::Base
-
-    base.class_eval do
-      alias_method_chain :render, :wicked_pdf
-      alias_method_chain :render_to_string, :wicked_pdf
-      after_filter :clean_temp_files
-    end
-  end
+  #Solve the conflict with Remotipart gem.
+  # def self.included(base)
+    # # Protect from trying to augment modules that appear
+    # # as the result of adding other gems.
+    # return if base != ActionController::Base
+# 
+    # base.class_eval do
+      # alias_method_chain :render, :wicked_pdf
+      # alias_method_chain :render_to_string, :wicked_pdf
+      # after_filter :clean_temp_files
+    # end
+  # end
 
   def render_with_wicked_pdf(options = nil, *args, &block)
     if options.is_a?(Hash) && options.has_key?(:pdf)
